@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>PeerDiffusion Client</title>
+    <style>
+      body { font-family: sans-serif; margin: 20px; background-color: #1e1e1e; color: #fff; }
+      #console { background: #000; padding: 10px; height: 300px; overflow-y: scroll; font-family: monospace; }
+      .btn { padding: 10px 15px; background: #007bff; color: white; border: none; cursor: pointer; margin-right: 10px; }
+    </style>
+  </head>
+  <body>
+    <h1>PeerDiffusion</h1>
+    <div>
+      <p>Node Status: <span id="status" style="color: yellow;">Initializing...</span></p>
+      <p>Connected Peers: <span id="peer-count">0</span></p>
+    </div>
+    <hr/>
+    <h3>Network Activity</h3>
+    <div id="console"></div>
+    <script>
+      // Simple log interceptor for the UI
+      const logDiv = document.getElementById('console');
+      const originalLog = console.log;
+      console.log = function(...args) {
+        originalLog(...args);
+        const msg = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+        logDiv.innerHTML += `<div>${new Date().toLocaleTimeString()} - ${msg}</div>`;
+        logDiv.scrollTop = logDiv.scrollHeight;
+      };
+      setTimeout(() => {
+          document.getElementById('status').innerText = 'Online';
+          document.getElementById('status').style.color = 'lime';
+      }, 3000);
+    </script>
+  </body>
+</html>
